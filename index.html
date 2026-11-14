@@ -145,6 +145,20 @@
   .lecteur button { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 0; cursor: pointer;
                     background: rgba(200,164,92,.14); color: var(--creme); font: inherit; font-size: .8rem; letter-spacing: .04em; }
   .lecteur input { width: 90px; accent-color: var(--or); }
+  .lecteur svg { color: var(--or); flex: none; }
+  .i-pause, .joue .i-play { display: none; }
+  .joue .i-pause { display: inline; }
+
+  /* Bandeau cookies (décor : le site ne pose aucun cookie) */
+  .cookies { position: fixed; left: 20px; bottom: 20px; z-index: 15; width: min(380px, calc(100% - 24px)); padding: 22px; border-radius: 18px;
+             background: rgba(6,38,25,.97); border: 1px solid var(--or); color: var(--creme); font-size: .88rem;
+             opacity: 0; visibility: hidden; transform: translateY(20px); transition: opacity .7s, transform .7s, visibility .7s; }
+  .cookies.la { opacity: 1; visibility: visible; transform: none; }
+  .cookies b { display: block; font: 400 1.25rem Didot, "Bodoni MT", Georgia, serif; color: var(--or); margin-bottom: 6px; }
+  .cookies p { margin: 0 0 16px; opacity: .85; }
+  .cookies div { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cookies button { flex: 1; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--or); background: none; color: var(--or-clair); font: inherit; cursor: pointer; white-space: nowrap; }
+  .cookies button.oui { background: var(--or); color: var(--nuit); font-weight: 600; }
 
   /* Barre d'achat fixe sur téléphone */
   .barre { display: none; }
@@ -156,7 +170,9 @@
     .bas .barre { transform: none; }
     .barre .btn { padding: 11px 22px; font-size: .9rem; }
     .lecteur { top: 12px; right: 12px; bottom: auto; padding: 6px 12px 6px 6px; gap: 8px; }
-    .lecteur input { width: 64px; }
+    .lecteur input { width: 56px; }
+    .lecteur button { padding: 0 10px; gap: 8px; }
+    .cookies { left: 12px; bottom: 12px; }
     .hero .btn, .vert .btn { display: block; }
     .bandeau .w { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 12px; }
     .trois { gap: 34px; margin-top: 48px; }
@@ -188,8 +204,17 @@
   </div>
 </div>
 <div class="lecteur">
-  <button id="mute" aria-label="Couper ou remettre la musique du site"><span class="barres"><i></i><i></i><i></i><i></i></span><span id="etat">Musique coupée</span></button>
-  <input id="vol" type="range" min="0" max="1" step="0.05" value="0.4" aria-label="Volume de la musique">
+  <button id="mute" aria-label="Mettre en pause ou relancer la musique du site"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path class="i-pause" d="M6 4h4v16H6zM14 4h4v16h-4z"/><path class="i-play" d="M7 4l13 8-13 8z"/></svg><span class="barres"><i></i><i></i><i></i><i></i></span><span id="etat">Musique en pause</span></button>
+  <input id="vol" type="range" min="0" max="1" step="0.05" value="0.5" aria-label="Volume de la musique">
+</div>
+<div class="cookies" id="cookies">
+  <b>Ta vie privée</b>
+  <p id="cktxt">Nous respectons ta vie privée. Choisis tes préférences pour ta visite.</p>
+  <div>
+    <button class="oui">Accepter</button>
+    <button>Refuser</button>
+    <button id="ckplus">Plus d'options</button>
+  </div>
 </div>
 <audio id="son" src="musique.mp3" loop preload="none"></audio>
 
@@ -375,16 +400,27 @@
 
   // Musique
   const son = document.getElementById('son'), vol = document.getElementById('vol'), etat = document.getElementById('etat');
-  son.volume = .4;
-  if (son.volume !== .4) vol.hidden = true;   // iPhone : le volume se règle avec les boutons du téléphone
+  son.volume = .5;
+  if (son.volume !== .5) vol.hidden = true;   // iPhone : le volume se règle avec les boutons du téléphone
   const musique = on => on ? son.play().catch(() => {}) : son.pause();
   son.onplay = son.onpause = () => {
     document.body.classList.toggle('joue', !son.paused);
-    etat.textContent = son.paused ? 'Musique coupée' : 'Musique du site';
+    etat.textContent = son.paused ? 'Musique en pause' : 'Musique du site';
   };
   document.querySelectorAll('.porte button').forEach(b => b.onclick = () => { document.body.classList.add('ouvert'); musique(b.dataset.son); });
   document.getElementById('mute').onclick = () => musique(son.paused);
   vol.oninput = () => son.volume = vol.value;
+
+  // Bandeau cookies : purement visuel, rien n'est enregistré
+  const ck = document.getElementById('cookies'), plus = document.getElementById('ckplus');
+  document.querySelectorAll('.porte button').forEach(b => b.addEventListener('click', () => setTimeout(() => ck.classList.add('la'), 2600)));
+  ck.querySelectorAll('button').forEach(b => b.onclick = () => ck.classList.remove('la'));
+  plus.onclick = () => {
+    document.getElementById('cktxt').textContent = "Ce bandeau est juste visuel. Ce site n'utilise aucun cookie et n'enregistre rien sur toi.";
+    plus.remove();
+    ck.querySelector('.oui').textContent = "J'ai compris";
+    ck.querySelectorAll('button')[1].remove();
+  };
 </script>
 </body>
 </html>
