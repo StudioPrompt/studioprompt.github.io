@@ -150,12 +150,12 @@
   .joue .i-pause { display: inline; }
 
   /* Bandeau cookies (décor : le site ne pose aucun cookie) */
-  .cookies { position: fixed; left: 20px; bottom: 20px; z-index: 15; width: min(380px, calc(100% - 24px)); padding: 22px; border-radius: 18px;
-             background: rgba(6,38,25,.97); border: 1px solid var(--or); color: var(--creme); font-size: .88rem;
+  .cookies { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; padding: 16px 24px;
+             background: rgba(6,38,25,.97); border-top: 1px solid var(--or); color: var(--creme); font-size: .88rem;
              opacity: 0; visibility: hidden; transform: translateY(20px); transition: opacity .7s, transform .7s, visibility .7s; }
   .cookies.la { opacity: 1; visibility: visible; transform: none; }
-  .cookies b { display: block; font: 400 1.25rem Didot, "Bodoni MT", Georgia, serif; color: var(--or); margin-bottom: 6px; }
-  .cookies p { margin: 0 0 16px; opacity: .85; }
+  .cookies b { font: 400 1.25rem Didot, "Bodoni MT", Georgia, serif; color: var(--or); }
+  .cookies p { margin: 0; flex: 1 1 260px; opacity: .85; }
   .cookies div { display: flex; flex-wrap: wrap; gap: 8px; }
   .cookies button { flex: 1; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--or); background: none; color: var(--or-clair); font: inherit; cursor: pointer; white-space: nowrap; }
   .cookies button.oui { background: var(--or); color: var(--nuit); font-weight: 600; }
@@ -172,7 +172,6 @@
     .lecteur { top: 12px; right: 12px; bottom: auto; padding: 6px 12px 6px 6px; gap: 8px; }
     .lecteur input { width: 56px; }
     .lecteur button { padding: 0 10px; gap: 8px; }
-    .cookies { left: 12px; bottom: 12px; }
     .hero .btn, .vert .btn { display: block; }
     .bandeau .w { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 12px; }
     .trois { gap: 34px; margin-top: 48px; }
