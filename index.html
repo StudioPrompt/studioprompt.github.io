@@ -139,7 +139,7 @@
   @keyframes barre { to { height: var(--h); } }
 
   /* Lecteur de musique */
-  .lecteur { position: fixed; right: 20px; bottom: 20px; z-index: 10; display: flex; align-items: center; gap: 12px; padding: 8px 16px 8px 8px; border-radius: 999px;
+  .lecteur { position: fixed; right: 20px; top: 20px; z-index: 10; display: flex; align-items: center; gap: 12px; padding: 8px 16px 8px 8px; border-radius: 999px;
              background: rgba(6,38,25,.94); border: 1px solid var(--or); backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity .9s .6s; }
   .ouvert .lecteur { opacity: 1; pointer-events: auto; }
   .lecteur button { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 0; cursor: pointer;
@@ -204,7 +204,7 @@
 </div>
 <div class="lecteur">
   <button id="mute" aria-label="Mettre en pause ou relancer la musique du site"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path class="i-pause" d="M6 4h4v16H6zM14 4h4v16h-4z"/><path class="i-play" d="M7 4l13 8-13 8z"/></svg><span class="barres"><i></i><i></i><i></i><i></i></span><span id="etat">Musique en pause</span></button>
-  <input id="vol" type="range" min="0" max="1" step="0.05" value="0.5" aria-label="Volume de la musique">
+  <input id="vol" type="range" min="0" max="1" step="0.05" value="0.3" aria-label="Volume de la musique">
 </div>
 <div class="cookies" id="cookies">
   <b>Ta vie privée</b>
@@ -399,8 +399,8 @@
 
   // Musique
   const son = document.getElementById('son'), vol = document.getElementById('vol'), etat = document.getElementById('etat');
-  son.volume = .5;
-  if (son.volume !== .5) vol.hidden = true;   // iPhone : le volume se règle avec les boutons du téléphone
+  son.volume = .3;
+  if (son.volume === 1) vol.hidden = true;   // iPhone : le volume se règle avec les boutons du téléphone
   const musique = on => on ? son.play().catch(() => {}) : son.pause();
   son.onplay = son.onpause = () => {
     document.body.classList.toggle('joue', !son.paused);
