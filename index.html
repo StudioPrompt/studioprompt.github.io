@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>StudioPrompts — Ton jeu Roblox, créé avec l'IA</title>
+<meta name="theme-color" content="#0b3d2e">
+<script>document.documentElement.classList.add("js")</script>
 <meta name="description" content="14 prompts testés et un guide pas à pas pour créer ton jeu Roblox avec Claude. Sans savoir coder.">
 <style>
   :root { --vert:#0b3d2e; --nuit:#062619; --or:#c8a45c; --or-clair:#e9d5a1; --creme:#faf7f0; --encre:#15231d; --gris:#5d6b64; }
@@ -111,13 +113,58 @@
   footer { background: var(--nuit); color: rgba(250,247,240,.5); text-align: center; padding: 44px 24px 96px; font-size: .78rem; line-height: 1.9; }
   footer .marque { animation: none; margin-bottom: 14px; }
 
+  /* Porte d'entrée : annonce la musique */
+  [hidden] { display: none !important; }
+  .porte { display: none; }
+  .js .porte { display: grid; position: fixed; inset: 0; z-index: 20; place-items: center; text-align: center; padding: 24px; color: var(--creme);
+               background: radial-gradient(ellipse at 50% 35%, #125240 0%, var(--vert) 45%, var(--nuit) 100%); transition: opacity .9s, visibility .9s; }
+  .ouvert .porte { opacity: 0; visibility: hidden; }
+  .js body:not(.ouvert) { overflow: hidden; }
+  .js body:not(.ouvert) .hero * { animation-play-state: paused; }
+  .porte > div { max-width: 460px; }
+  .porte h2 { font-size: clamp(1.7rem, 6vw, 2.4rem); margin-top: 22px; }
+  .porte p { opacity: .78; margin: 16px 0 34px; }
+  .porte .sans { display: block; margin: 20px auto 0; padding: 10px; background: none; border: 0; cursor: pointer; font: inherit; font-size: .92rem;
+                 color: var(--or-clair); text-decoration: underline; text-underline-offset: 6px; }
+  button.btn { border: 0; cursor: pointer; font: inherit; font-weight: 600; }
+
+  /* Petites barres de son animées */
+  .barres { display: inline-flex; gap: 3px; align-items: flex-end; height: 14px; --h: 14px; }
+  .barres i { width: 3px; height: 3px; border-radius: 2px; background: var(--or); }
+  .porte .barres { height: 34px; --h: 34px; gap: 5px; }
+  .porte .barres i { width: 4px; }
+  .porte .barres i, .joue .barres i { animation: barre .9s ease-in-out infinite alternate; }
+  .barres i:nth-child(2) { animation-delay: -.6s; } .barres i:nth-child(3) { animation-delay: -.3s; }
+  .barres i:nth-child(4) { animation-delay: -.75s; } .barres i:nth-child(5) { animation-delay: -.15s; }
+  @keyframes barre { to { height: var(--h); } }
+
+  /* Lecteur de musique */
+  .lecteur { position: fixed; right: 20px; bottom: 20px; z-index: 10; display: flex; align-items: center; gap: 12px; padding: 8px 16px 8px 8px; border-radius: 999px;
+             background: rgba(6,38,25,.94); border: 1px solid var(--or); backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity .9s .6s; }
+  .ouvert .lecteur { opacity: 1; pointer-events: auto; }
+  .lecteur button { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 0; cursor: pointer;
+                    background: rgba(200,164,92,.14); color: var(--creme); font: inherit; font-size: .8rem; letter-spacing: .04em; }
+  .lecteur input { width: 90px; accent-color: var(--or); }
+
   /* Barre d'achat fixe sur téléphone */
   .barre { display: none; }
   @media (max-width: 800px) { .etapes { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 640px) {
     .barre { display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 9; align-items: center; justify-content: space-between;
-             padding: 10px 10px 10px 22px; border-radius: 999px; background: rgba(6,38,25,.94); border: 1px solid var(--or); color: var(--creme); backdrop-filter: blur(8px); }
+             padding: 10px 10px 10px 22px; border-radius: 999px; background: rgba(6,38,25,.94); border: 1px solid var(--or); color: var(--creme); backdrop-filter: blur(8px);
+             transform: translateY(160%); transition: transform .5s; }
+    .bas .barre { transform: none; }
     .barre .btn { padding: 11px 22px; font-size: .9rem; }
+    .lecteur { top: 12px; right: 12px; bottom: auto; padding: 6px 12px 6px 6px; gap: 8px; }
+    .lecteur input { width: 64px; }
+    .hero .btn, .vert .btn { display: block; }
+    .bandeau .w { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 12px; }
+    .trois { gap: 34px; margin-top: 48px; }
+    .photos { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -24px; padding-inline: 24px; scrollbar-width: none; }
+    .photo { flex: 0 0 84%; scroll-snap-align: center; }
+    .js .photos .r { opacity: 1; transform: none; }
+    .carte { padding: 32px 24px; }
+    .carte .pour { min-height: 0; }
   }
   @media (prefers-reduced-motion: reduce) { *, *::after { animation: none !important; transition: none !important; } .js .r { opacity: 1; transform: none; } }
 </style>
@@ -126,9 +173,25 @@
 
 <!-- ============ À CHANGER PARTOUT (Ctrl+H dans le Bloc-notes) ============
      https://payhip.com/TON_LIEN  → lien de ton produit Payhip
-     TON_EMAIL                    → ton email
-     TON NOM  et  TON_SIRET       → en bas de page
      ====================================================================== -->
+
+<!-- 0. PORTE D'ENTRÉE + MUSIQUE (fichier musique.mp3 à côté de index.html) -->
+<div class="porte">
+  <div>
+    <div class="marque">StudioPrompts</div>
+    <div class="trait"></div>
+    <div class="barres"><i></i><i></i><i></i><i></i><i></i></div>
+    <h2>Ce site a sa propre musique.</h2>
+    <p>Une ambiance sonore accompagne ta visite. Tu peux la couper ou régler le volume à tout moment.</p>
+    <button class="btn" data-son="1">Entrer avec la musique</button>
+    <button class="sans">Entrer sans musique</button>
+  </div>
+</div>
+<div class="lecteur">
+  <button id="mute" aria-label="Couper ou remettre la musique du site"><span class="barres"><i></i><i></i><i></i><i></i></span><span id="etat">Musique coupée</span></button>
+  <input id="vol" type="range" min="0" max="1" step="0.05" value="0.4" aria-label="Volume de la musique">
+</div>
+<audio id="son" src="musique.mp3" loop preload="none"></audio>
 
 <!-- 1. HERO -->
 <header class="hero">
@@ -240,7 +303,7 @@
           <li>Collecte, parcours, aventure</li>
           <li>Les inscrits sont prévenus en premier</li>
         </ul>
-        <a class="btn fil" href="mailto:TON_EMAIL?subject=Liste%20prioritaire%20-%20La%20Formation">Rejoindre la liste prioritaire</a>
+        <a class="btn fil" href="mailto:claudeformation01@gmail.com?subject=Liste%20prioritaire%20-%20La%20Formation">Rejoindre la liste prioritaire</a>
       </div>
 
       <div class="carte r" style="--d:.3s">
@@ -255,7 +318,7 @@
           <li>Des réponses à tes questions</li>
           <li>Ouverture réservée à la liste d'attente</li>
         </ul>
-        <a class="btn fil" href="mailto:TON_EMAIL?subject=Liste%20d%27attente%20-%20La%20Masterclass">Demander une place</a>
+        <a class="btn fil" href="mailto:claudeformation01@gmail.com?subject=Liste%20d%27attente%20-%20La%20Masterclass">Demander une place</a>
       </div>
 
     </div>
@@ -294,7 +357,7 @@
 <!-- 9. PIED DE PAGE -->
 <footer>
   <div class="marque">StudioPrompts</div>
-  TON NOM, micro-entreprise — SIRET : TON_SIRET — Contact : TON_EMAIL<br>
+  Furkan ALTUN, entrepreneur individuel — SIRET : 132 804 477 00017 — Contact : claudeformation01@gmail.com<br>
   Hébergeur : GitHub Inc., 88 Colin P. Kelly Jr. St, San Francisco, CA 94107, USA<br>
   Site non affilié à Roblox Corporation ni à Anthropic.
 </footer>
@@ -302,11 +365,26 @@
 <div class="barre"><span>Le Guide · 19 €</span><a class="btn" href="https://payhip.com/TON_LIEN">Obtenir</a></div>
 
 <script>
-  document.documentElement.classList.add('js');
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('vu'); io.unobserve(e.target); }
   }), { threshold: .15 });
   document.querySelectorAll('.r').forEach(el => io.observe(el));
+
+  // Barre d'achat : seulement après le haut de page
+  new IntersectionObserver(([e]) => document.body.classList.toggle('bas', !e.isIntersecting)).observe(document.querySelector('.hero'));
+
+  // Musique
+  const son = document.getElementById('son'), vol = document.getElementById('vol'), etat = document.getElementById('etat');
+  son.volume = .4;
+  if (son.volume !== .4) vol.hidden = true;   // iPhone : le volume se règle avec les boutons du téléphone
+  const musique = on => on ? son.play().catch(() => {}) : son.pause();
+  son.onplay = son.onpause = () => {
+    document.body.classList.toggle('joue', !son.paused);
+    etat.textContent = son.paused ? 'Musique coupée' : 'Musique du site';
+  };
+  document.querySelectorAll('.porte button').forEach(b => b.onclick = () => { document.body.classList.add('ouvert'); musique(b.dataset.son); });
+  document.getElementById('mute').onclick = () => musique(son.paused);
+  vol.oninput = () => son.volume = vol.value;
 </script>
 </body>
 </html>
