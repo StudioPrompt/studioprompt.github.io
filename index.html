@@ -93,7 +93,7 @@
   .etapes span { font-size: .92rem; color: rgba(250,247,240,.72); }
   .fil { height: 1px; margin: 40px max(24px, calc(50vw - 520px)) 0; background: rgba(200,164,92,.25); }
   .fil i { display: block; height: 100%; background: var(--or); transform-origin: left; transform: scaleX(0); }
-  @media (max-height: 640px) { .defile .intro { display: none; } }
+  @media (max-height: 640px) and (min-width: 641px) { .defile .intro { display: none; } }
 
   /* Démo animée : du prompt au jeu */
   .demo { max-width: 420px; margin: 44px auto 0; padding: 24px; text-align: left; font-size: .95rem; border-radius: 20px; border: 1px solid rgba(200,164,92,.45); background: var(--nuit); box-shadow: 0 26px 60px rgba(0,0,0,.3); }
@@ -121,8 +121,8 @@
   .jeu b { display: block; font-size: 1.05rem; line-height: 1.25; }
   .jeu span { display: block; margin-top: 6px; color: var(--gris); font-size: .88rem; }
   .jeu strong { color: var(--vert); }
-  .jeu:hover { box-shadow: 0 18px 40px rgba(6,38,25,.12); }
-  .js .jeu:hover, .js .carte:hover { transition: transform .15s, box-shadow .4s; transition-delay: 0s; }   /* penchent vers la souris */
+  .jeu:hover, .photo:hover { box-shadow: 0 18px 40px rgba(6,38,25,.12); }
+  .js .jeu:hover, .js .carte:hover, .js .photo:hover { transition: transform .15s, box-shadow .4s; transition-delay: 0s; }   /* penchent vers la souris */
   .note { text-align: center; color: var(--gris); font-size: .8rem; margin: 28px auto 0; max-width: 620px; }
 
   /* Offre unique */
@@ -225,10 +225,13 @@
     .photo { flex: 0 0 84%; scroll-snap-align: center; }
     .js .photos .r { opacity: 1; transform: none; }
     .carte { padding: 32px 24px; }
-    .colle { padding: 70px 0 84px; }
-    .etapes { margin-top: 28px; }
-    .etapes li { width: 220px; padding: 22px 20px; }
-    .fil { margin-top: 24px; }
+    /* 14 étapes sur téléphone : la page descend normalement, on glisse les cartes à droite et à gauche */
+    .js .defile { height: auto; }
+    .js .colle { position: static; height: auto; display: block; overflow: visible; }
+    .colle { padding: 72px 0; }
+    .etapes { width: auto; margin-top: 36px; padding: 0 24px; overflow-x: auto; transform: none !important; scroll-snap-type: x mandatory; scroll-padding: 24px; scrollbar-width: none; }
+    .etapes li { width: 220px; padding: 22px 20px; scroll-snap-align: start; }
+    .fil { display: none; }
   }
   @media (prefers-reduced-motion: reduce) { *, *::after { animation: none !important; transition: none !important; } .js .r { opacity: 1; transform: none; } }
 </style>
@@ -237,6 +240,7 @@
 
 <!-- ============ À CHANGER PARTOUT (Ctrl+H dans le Bloc-notes) ============
      https://payhip.com/TON_LIEN  → lien de ton produit Payhip
+     MIS DE CÔTÉ : la mention « Prix de lancement » (retirée du site, à réutiliser sur la page Payhip)
      ====================================================================== -->
 
 <!-- BANDEAU DU HAUT (logo inclus dans ce fichier) -->
@@ -382,7 +386,7 @@
     <div class="centre r">
       <div class="sur">L'offre</div>
       <h2>Une offre.<br>Tout est dedans.</h2>
-      <p class="intro">Le Guide complet, au prix de lancement.</p>
+      <p class="intro">Le Guide complet, prêt à télécharger.</p>
     </div>
     <div class="offres">
 
@@ -391,7 +395,6 @@
         <h3>Le Guide</h3>
         <p class="pour">Pour créer ton premier jeu de collecte : œufs, pets, tycoon.</p>
         <div class="prix">19 €</div>
-        <small>Prix de lancement</small>
         <ul>
           <li>Les 14 prompts, testés un par un</li>
           <li>Le guide PDF, étape par étape</li>
@@ -427,7 +430,7 @@
 <!-- 8. APPEL FINAL -->
 <section class="vert centre">
   <div class="w r">
-    <div class="sur">Prix de lancement</div>
+    <div class="sur">Le Guide</div>
     <h2>Ton jeu commence<br>aujourd'hui.</h2>
     <p class="intro">Le Guide est disponible maintenant, à 19 €.</p>
     <div class="demo" aria-hidden="true">
@@ -500,11 +503,11 @@
   addEventListener('scroll', glisse, { passive: true }); addEventListener('resize', glisse); glisse();
 
   // Cartes qui penchent vers la souris
-  if (!calme) document.querySelectorAll('.jeu, .carte').forEach(c => {
+  if (!calme) document.querySelectorAll('.jeu, .carte, .photo').forEach(c => {
     c.onpointermove = e => {
       if (e.pointerType !== 'mouse') return;
       const b = c.getBoundingClientRect();
-      c.style.transform = `perspective(900px) rotateY(${((e.clientX - b.left) / b.width - .5) * 7}deg) rotateX(${(.5 - (e.clientY - b.top) / b.height) * 7}deg) translateY(-4px)`;
+      c.style.transform = `perspective(900px) rotateY(${((e.clientX - b.left) / b.width - .5) * 7}deg) rotateX(${(.5 - (e.clientY - b.top) / b.height) * 7}deg) translateY(-4px) scale(1.04)`;
     };
     c.onpointerleave = () => c.style.transform = '';
   });
@@ -528,6 +531,10 @@
   document.querySelectorAll('.porte button').forEach(b => b.onclick = () => { document.body.classList.add('ouvert'); musique(b.dataset.son); });
   document.getElementById('mute').onclick = () => musique(son.paused);
   vol.oninput = () => son.volume = vol.value;
+  let reprise = false;   // coupée quand on quitte la page, relancée au retour
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { reprise = !son.paused; son.pause(); } else if (reprise) musique(true);
+  });
 
   // Bandeau cookies : purement visuel, rien n'est enregistré
   const ck = document.getElementById('cookies'), plus = document.getElementById('ckplus');
