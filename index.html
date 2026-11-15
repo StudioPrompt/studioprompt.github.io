@@ -95,20 +95,6 @@
   .fil i { display: block; height: 100%; background: var(--or); transform-origin: left; transform: scaleX(0); }
   @media (max-height: 640px) and (min-width: 641px) { .defile .intro { display: none; } }
 
-  /* Démo animée : du prompt au jeu */
-  .demo { max-width: 420px; margin: 44px auto 0; padding: 24px; text-align: left; font-size: .95rem; border-radius: 20px; border: 1px solid rgba(200,164,92,.45); background: var(--nuit); box-shadow: 0 26px 60px rgba(0,0,0,.3); }
-  .demo .p { opacity: 0; transform: translateY(8px); transition: opacity .5s, transform .5s; }
-  .demo .p.on { opacity: 1; transform: none; }
-  .demo > div { margin-bottom: 16px; }
-  .demo em { display: block; font-style: normal; font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--or); margin-bottom: 4px; }
-  .choix { position: relative; display: flex; gap: 8px; margin-top: 10px; }
-  .demo .choix b { flex: 1; text-align: center; padding: 8px 0; border-radius: 999px; border: 1px solid rgba(200,164,92,.5); font-weight: 400; opacity: 1; transform: none; transition: background .3s, color .3s; }
-  .demo .choix b.on { background: var(--or); color: var(--nuit); font-weight: 600; }
-  .demo .souris { position: absolute; left: 92%; top: 150%; width: 20px; fill: var(--creme); stroke: var(--nuit); transition: opacity .4s, left .9s, top .9s; }
-  .demo .souris.on { left: 50%; top: 55%; }
-  .demo u { display: block; text-decoration: none; position: relative; padding: 3px 0 3px 24px; }
-  .demo u::before { content: "✓"; position: absolute; left: 0; color: var(--or); }
-
   /* Photos */
   .photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 60px; }
   .photo { aspect-ratio: 16/9; border-radius: 16px; background: #efe9da; border: 1px solid #e3dac4; display: grid; place-items: center; color: #a79c80; font-size: .85rem; letter-spacing: .15em; text-transform: uppercase; overflow: hidden; }
@@ -240,7 +226,6 @@
 
 <!-- ============ À CHANGER PARTOUT (Ctrl+H dans le Bloc-notes) ============
      https://payhip.com/TON_LIEN  → lien de ton produit Payhip
-     MIS DE CÔTÉ : la mention « Prix de lancement » (retirée du site, à réutiliser sur la page Payhip)
      ====================================================================== -->
 
 <!-- BANDEAU DU HAUT (logo inclus dans ce fichier) -->
@@ -386,7 +371,7 @@
     <div class="centre r">
       <div class="sur">L'offre</div>
       <h2>Une offre.<br>Tout est dedans.</h2>
-      <p class="intro">Le Guide complet, prêt à télécharger.</p>
+      <p class="intro">Le Guide complet, au prix de lancement.</p>
     </div>
     <div class="offres">
 
@@ -395,6 +380,7 @@
         <h3>Le Guide</h3>
         <p class="pour">Pour créer ton premier jeu de collecte : œufs, pets, tycoon.</p>
         <div class="prix">19 €</div>
+        <small>Prix de lancement</small>
         <ul>
           <li>Les 14 prompts, testés un par un</li>
           <li>Le guide PDF, étape par étape</li>
@@ -430,17 +416,9 @@
 <!-- 8. APPEL FINAL -->
 <section class="vert centre">
   <div class="w r">
-    <div class="sur">Le Guide</div>
+    <div class="sur">Prix de lancement</div>
     <h2>Ton jeu commence<br>aujourd'hui.</h2>
     <p class="intro">Le Guide est disponible maintenant, à 19 €.</p>
-    <div class="demo" aria-hidden="true">
-      <div class="p"><em>Toi</em>Je colle le prompt de l'étape.</div>
-      <div class="p"><em>Claude</em>Quel thème pour ton jeu ?
-        <span class="choix"><svg class="souris p" viewBox="0 0 24 24"><path d="M5 3l14 8-6 2-3 6z"/></svg><b>Océan</b><b class="p">Ferme</b><b>Espace</b></span></div>
-      <div class="p"><em>Claude</em>C'est noté. Je construis.</div>
-      <u class="p">Monde créé</u><u class="p">Boutique posée</u><u class="p">Interface prête</u>
-    </div>
-    <small style="display:block;margin-top:12px;opacity:.6">Illustration simplifiée d'une étape</small>
     <p style="margin-top:40px"><a class="btn" href="https://payhip.com/TON_LIEN">Obtenir le Guide — 19 €</a></p>
     <small style="opacity:.6">Paiement sécurisé sur Payhip</small>
   </div>
@@ -511,13 +489,6 @@
     };
     c.onpointerleave = () => c.style.transform = '';
   });
-
-  // Démo : les lignes arrivent une par une, puis ça recommence
-  const pas = document.querySelectorAll('.demo .p'); let n = 0;
-  setInterval(() => {
-    if (n > pas.length + 2) { pas.forEach(p => p.classList.remove('on')); n = 0; }
-    else pas[n++]?.classList.add('on');
-  }, 1100);
 
   // Musique
   const son = document.getElementById('son'), vol = document.getElementById('vol'), etat = document.getElementById('etat');
