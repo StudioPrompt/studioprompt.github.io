@@ -97,8 +97,10 @@
   @media (max-height: 640px) and (min-width: 641px) { .defile .intro { display: none; } }
 
   /* Photos */
-  .photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 60px; }
-  .photo { aspect-ratio: 16/9; border-radius: 16px; background: #efe9da; border: 1px solid #e3dac4; display: grid; place-items: center; color: #a79c80; font-size: .85rem; letter-spacing: .15em; text-transform: uppercase; overflow: hidden; }
+  .photos { display: flex; gap: 20px; margin: 36px -12px -48px; padding: 24px 12px 48px; overflow-x: auto; scrollbar-width: none;
+            -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent); mask-image: linear-gradient(90deg, #000 86%, transparent); }   /* fondu à droite */
+  .photos::-webkit-scrollbar { display: none; }
+  .photo { flex: 0 0 27%; aspect-ratio: 16/9; border-radius: 16px; background: #efe9da; border: 1px solid #e3dac4; display: grid; place-items: center; color: #a79c80; font-size: .85rem; letter-spacing: .15em; text-transform: uppercase; overflow: hidden; }
   .photo img { width: 100%; height: 100%; object-fit: cover; }
 
   /* Jeux modèles */
@@ -211,7 +213,7 @@
     .bandeau .w { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 12px; }
     .trois { gap: 34px; margin-top: 48px; }
     .jeux { grid-template-columns: 1fr; margin-top: 44px; }
-    .photos { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -24px; padding-inline: 24px; scrollbar-width: none; }
+    .photos { scroll-snap-type: x mandatory; margin-inline: -24px; padding-inline: 24px; -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent); mask-image: linear-gradient(90deg, #000 88%, transparent); }
     .photo { flex: 0 0 84%; scroll-snap-align: center; }
     .js .photos .r { opacity: 1; transform: none; }
     .carte { padding: 32px 24px; }
@@ -334,20 +336,20 @@
       <p class="intro">14 étapes, dans l'ordre. Chacune a son prompt. Tu ne te demandes jamais quoi faire ensuite.</p>
     </div>
     <ol class="etapes">
-      <li><i>01</i><em>Valeur 15 €</em><b>Départ</b><span>Ton idée, ton thème. Claude prépare la fiche du jeu.</span></li>
-      <li><i>02</i><em>Valeur 35 €</em><b>Monde</b><span>Le décor, les zones, le ciel.</span></li>
-      <li><i>03</i><em>Valeur 45 €</em><b>Mécaniques</b><span>Ramasser, pêcher, casser : le cœur du jeu.</span></li>
-      <li><i>04</i><em>Valeur 30 €</em><b>Économie</b><span>L'argent, les prix, la vente.</span></li>
-      <li><i>05</i><em>Valeur 35 €</em><b>Progression</b><span>Améliorations, raretés, nouvelles zones.</span></li>
-      <li><i>06</i><em>Valeur 45 €</em><b>Interface</b><span>Boutique, index, inventaire.</span></li>
-      <li><i>07</i><em>Valeur 30 €</em><b>Sauvegarde</b><span>Tes joueurs gardent leur progression.</span></li>
-      <li><i>08</i><em>Valeur 25 €</em><b>PNJ</b><span>Des personnages qui guident et qui vendent.</span></li>
-      <li><i>09</i><em>Valeur 30 €</em><b>Multijoueur</b><span>Tout marche à plusieurs joueurs.</span></li>
-      <li><i>10</i><em>Valeur 20 €</em><b>Ambiance</b><span>Musique, sons, effets.</span></li>
-      <li><i>11</i><em>Valeur 25 €</em><b>Mobile</b><span>Jouable sur téléphone.</span></li>
-      <li><i>12</i><em>Valeur 40 €</em><b>Monétisation</b><span>Passes et achats en Robux.</span></li>
-      <li><i>13</i><em>Valeur 25 €</em><b>Debug</b><span>Chasse aux bugs avant la sortie.</span></li>
-      <li><i>14</i><em>Valeur 20 €</em><b>Sortie</b><span>Icône, miniatures, mise en ligne.</span></li>
+      <li><i>01</i><em>Valeur 30 €</em><b>Départ</b><span>Ton idée, ton thème. Claude prépare la fiche du jeu.</span></li>
+      <li><i>02</i><em>Valeur 50 €</em><b>Monde</b><span>Le décor, les zones, le ciel.</span></li>
+      <li><i>03</i><em>Valeur 60 €</em><b>Mécaniques</b><span>Ramasser, pêcher, casser : le cœur du jeu.</span></li>
+      <li><i>04</i><em>Valeur 45 €</em><b>Économie</b><span>L'argent, les prix, la vente.</span></li>
+      <li><i>05</i><em>Valeur 50 €</em><b>Progression</b><span>Améliorations, raretés, nouvelles zones.</span></li>
+      <li><i>06</i><em>Valeur 60 €</em><b>Interface</b><span>Boutique, index, inventaire.</span></li>
+      <li><i>07</i><em>Valeur 45 €</em><b>Sauvegarde</b><span>Tes joueurs gardent leur progression.</span></li>
+      <li><i>08</i><em>Valeur 40 €</em><b>PNJ</b><span>Des personnages qui guident et qui vendent.</span></li>
+      <li><i>09</i><em>Valeur 45 €</em><b>Multijoueur</b><span>Tout marche à plusieurs joueurs.</span></li>
+      <li><i>10</i><em>Valeur 35 €</em><b>Ambiance</b><span>Musique, sons, effets.</span></li>
+      <li><i>11</i><em>Valeur 40 €</em><b>Mobile</b><span>Jouable sur téléphone.</span></li>
+      <li><i>12</i><em>Valeur 55 €</em><b>Monétisation</b><span>Passes et achats en Robux.</span></li>
+      <li><i>13</i><em>Valeur 40 €</em><b>Debug</b><span>Chasse aux bugs avant la sortie.</span></li>
+      <li><i>14</i><em>Valeur 35 €</em><b>Sortie</b><span>Icône, miniatures, mise en ligne.</span></li>
     </ol>
     <div class="fil"><i></i></div>
   </div>
@@ -365,6 +367,7 @@
       <div class="photo r"><img src="photo1.jpg" alt="Miniature d'exemple : un yéti garde un nid d'œufs" loading="lazy"></div>
       <div class="photo r" style="--d:.15s"><img src="photo2.jpg" alt="Miniature d'exemple : une carotte lancée vers un dragon mystère" loading="lazy"></div>
       <div class="photo r" style="--d:.3s"><img src="photo3.jpg" alt="Miniature d'exemple : un bloc mystère volé" loading="lazy"></div>
+      <div class="photo r" style="--d:.45s"><img src="photo4.jpg" alt="Miniature d'exemple : un joueur sur un dragon, poursuivi par une soucoupe" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -383,7 +386,7 @@
         <span class="badge">Disponible</span>
         <h3>Le Guide</h3>
         <p class="pour">Pour créer ton premier jeu de collecte : œufs, pets, tycoon.</p>
-        <div class="valeur">Valeur estimée des 14 étapes <s>420 €</s></div>   <!-- = somme des « Valeur » des 14 cartes -->
+        <div class="valeur">Valeur estimée des 14 étapes <s>630 €</s></div>   <!-- = somme des « Valeur » des 14 cartes -->
         <div class="prix">19 €</div>
         <small>Prix de lancement</small>
         <ul>
