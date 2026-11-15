@@ -42,7 +42,9 @@
   /* HERO + animation d'entrée */
   .hero { padding: 100px 24px 24px; min-height: 100svh; display: grid; place-items: center; text-align: center; color: var(--creme);
           background: radial-gradient(ellipse at 50% 35%, #125240 0%, var(--vert) 45%, var(--nuit) 100%); }
-  .hero > div { max-width: 780px; }
+  .hero { position: relative; overflow: hidden; }
+  .hero > div { max-width: 780px; position: relative; }
+  .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }   /* poussière d'or */
   .marque { color: var(--or); font-size: .95rem; letter-spacing: .45em; text-transform: uppercase;
             animation: marque 1.5s cubic-bezier(.2,.7,.2,1) .2s both; }
   .trait { width: 110px; height: 1px; margin: 26px auto 38px; background: var(--or);
@@ -59,7 +61,7 @@
   @keyframes reflet { 0% { transform: translateX(-120%); } 35%, 100% { transform: translateX(120%); } }
 
   /* Apparition au scroll */
-  .js .r { opacity: 0; transform: translateY(30px); transition: opacity 1s, transform 1s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
+  .js .r { opacity: 0; transform: translateY(30px); transition: opacity 1s, transform 1s cubic-bezier(.2,.7,.2,1), box-shadow .4s; transition-delay: var(--d, 0s); }
   .js .r.vu { opacity: 1; transform: none; }
 
   /* Bandeau or */
@@ -77,10 +79,35 @@
   /* 14 étapes */
   .vert { background: var(--vert); color: var(--creme); }
   .vert .intro { color: rgba(250,247,240,.72); }
-  .etapes { list-style: none; padding: 0; margin: 64px 0 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: rgba(200,164,92,.3); border: 1px solid rgba(200,164,92,.3); }
-  .etapes li { background: var(--vert); padding: 24px 18px; transition: background .4s; }
-  .etapes li:hover { background: #10503d; }
-  .etapes i { display: block; font-style: normal; color: var(--or); font-size: .75rem; letter-spacing: .2em; margin-bottom: 6px; }
+  /* Les cartes défilent sur le côté pendant qu'on descend */
+  .defile { padding: 0; }
+  .colle { padding: 96px 0 48px; overflow-x: auto; }
+  .js .defile { height: 320vh; }
+  .js .colle { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  .colle .w { width: 100%; margin: 0 auto; padding: 0 24px; }
+  .etapes { list-style: none; display: flex; gap: 20px; width: max-content; margin: 48px 0 0; padding: 0 max(24px, calc(50vw - 520px)); will-change: transform; }
+  .etapes li { flex: none; width: 250px; padding: 28px 24px; border-radius: 18px; border: 1px solid rgba(200,164,92,.35); background: rgba(255,255,255,.04); transition: background .4s, border-color .4s; }
+  .etapes li:hover { background: #10503d; border-color: var(--or); }
+  .etapes i { display: block; font: 400 2.4rem Didot, "Bodoni MT", Georgia, serif; color: var(--or); line-height: 1; }
+  .etapes b { display: block; font: 400 1.35rem Didot, "Bodoni MT", Georgia, serif; margin: 14px 0 6px; }
+  .etapes span { font-size: .92rem; color: rgba(250,247,240,.72); }
+  .fil { height: 1px; margin: 40px max(24px, calc(50vw - 520px)) 0; background: rgba(200,164,92,.25); }
+  .fil i { display: block; height: 100%; background: var(--or); transform-origin: left; transform: scaleX(0); }
+  @media (max-height: 640px) { .defile .intro { display: none; } }
+
+  /* Démo animée : du prompt au jeu */
+  .demo { max-width: 420px; margin: 44px auto 0; padding: 24px; text-align: left; font-size: .95rem; border-radius: 20px; border: 1px solid rgba(200,164,92,.45); background: var(--nuit); box-shadow: 0 26px 60px rgba(0,0,0,.3); }
+  .demo .p { opacity: 0; transform: translateY(8px); transition: opacity .5s, transform .5s; }
+  .demo .p.on { opacity: 1; transform: none; }
+  .demo > div { margin-bottom: 16px; }
+  .demo em { display: block; font-style: normal; font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--or); margin-bottom: 4px; }
+  .choix { position: relative; display: flex; gap: 8px; margin-top: 10px; }
+  .demo .choix b { flex: 1; text-align: center; padding: 8px 0; border-radius: 999px; border: 1px solid rgba(200,164,92,.5); font-weight: 400; opacity: 1; transform: none; transition: background .3s, color .3s; }
+  .demo .choix b.on { background: var(--or); color: var(--nuit); font-weight: 600; }
+  .demo .souris { position: absolute; left: 92%; top: 150%; width: 20px; fill: var(--creme); stroke: var(--nuit); transition: opacity .4s, left .9s, top .9s; }
+  .demo .souris.on { left: 50%; top: 55%; }
+  .demo u { display: block; text-decoration: none; position: relative; padding: 3px 0 3px 24px; }
+  .demo u::before { content: "✓"; position: absolute; left: 0; color: var(--or); }
 
   /* Photos */
   .photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 60px; }
@@ -94,6 +121,8 @@
   .jeu b { display: block; font-size: 1.05rem; line-height: 1.25; }
   .jeu span { display: block; margin-top: 6px; color: var(--gris); font-size: .88rem; }
   .jeu strong { color: var(--vert); }
+  .jeu:hover { box-shadow: 0 18px 40px rgba(6,38,25,.12); }
+  .js .jeu:hover, .js .carte:hover { transition: transform .15s, box-shadow .4s; transition-delay: 0s; }   /* penchent vers la souris */
   .note { text-align: center; color: var(--gris); font-size: .8rem; margin: 28px auto 0; max-width: 620px; }
 
   /* Offre unique */
@@ -176,7 +205,6 @@
 
   /* Barre d'achat fixe sur téléphone */
   .barre { display: none; }
-  @media (max-width: 800px) { .etapes { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 640px) {
     .barre { display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 9; align-items: center; justify-content: space-between;
              padding: 10px 10px 10px 22px; border-radius: 999px; background: rgba(6,38,25,.94); border: 1px solid var(--or); color: var(--creme); backdrop-filter: blur(8px);
@@ -197,6 +225,10 @@
     .photo { flex: 0 0 84%; scroll-snap-align: center; }
     .js .photos .r { opacity: 1; transform: none; }
     .carte { padding: 32px 24px; }
+    .colle { padding: 70px 0 84px; }
+    .etapes { margin-top: 28px; }
+    .etapes li { width: 220px; padding: 22px 20px; }
+    .fil { margin-top: 24px; }
   }
   @media (prefers-reduced-motion: reduce) { *, *::after { animation: none !important; transition: none !important; } .js .r { opacity: 1; transform: none; } }
 </style>
@@ -242,6 +274,7 @@
 
 <!-- 1. HERO -->
 <header class="hero">
+  <canvas></canvas>
   <div>
     <div class="marque">StudioPrompt</div>
     <div class="trait"></div>
@@ -300,19 +333,30 @@
 </section>
 
 <!-- 4. LES 14 ÉTAPES -->
-<section class="vert">
-  <div class="w">
-    <div class="centre r">
+<section class="vert defile">
+  <div class="colle">
+    <div class="w centre r">
       <div class="sur">Le parcours</div>
       <h2>De la page blanche<br>au jeu publié.</h2>
       <p class="intro">14 étapes, dans l'ordre. Chacune a son prompt. Tu ne te demandes jamais quoi faire ensuite.</p>
     </div>
-    <ol class="etapes r">
-      <li><i>01</i>Départ</li><li><i>02</i>Monde</li><li><i>03</i>Mécaniques</li><li><i>04</i>Économie</li>
-      <li><i>05</i>Progression</li><li><i>06</i>Interface</li><li><i>07</i>Sauvegarde</li><li><i>08</i>PNJ</li>
-      <li><i>09</i>Multijoueur</li><li><i>10</i>Ambiance</li><li><i>11</i>Mobile</li><li><i>12</i>Monétisation</li>
-      <li><i>13</i>Debug</li><li><i>14</i>Sortie</li>
+    <ol class="etapes">
+      <li><i>01</i><b>Départ</b><span>Ton idée, ton thème. Claude prépare la fiche du jeu.</span></li>
+      <li><i>02</i><b>Monde</b><span>Le décor, les zones, le ciel.</span></li>
+      <li><i>03</i><b>Mécaniques</b><span>Ramasser, pêcher, casser : le cœur du jeu.</span></li>
+      <li><i>04</i><b>Économie</b><span>L'argent, les prix, la vente.</span></li>
+      <li><i>05</i><b>Progression</b><span>Améliorations, raretés, nouvelles zones.</span></li>
+      <li><i>06</i><b>Interface</b><span>Boutique, index, inventaire.</span></li>
+      <li><i>07</i><b>Sauvegarde</b><span>Tes joueurs gardent leur progression.</span></li>
+      <li><i>08</i><b>PNJ</b><span>Des personnages qui guident et qui vendent.</span></li>
+      <li><i>09</i><b>Multijoueur</b><span>Tout marche à plusieurs joueurs.</span></li>
+      <li><i>10</i><b>Ambiance</b><span>Musique, sons, effets.</span></li>
+      <li><i>11</i><b>Mobile</b><span>Jouable sur téléphone.</span></li>
+      <li><i>12</i><b>Monétisation</b><span>Passes et achats en Robux.</span></li>
+      <li><i>13</i><b>Debug</b><span>Chasse aux bugs avant la sortie.</span></li>
+      <li><i>14</i><b>Sortie</b><span>Icône, miniatures, mise en ligne.</span></li>
     </ol>
+    <div class="fil"><i></i></div>
   </div>
 </section>
 
@@ -352,6 +396,7 @@
           <li>Les 14 prompts, testés un par un</li>
           <li>Le guide PDF, étape par étape</li>
           <li>Les fichiers du pack à importer</li>
+          <li>Le tuto pour brancher Claude à Roblox Studio</li>
           <li>Téléchargement immédiat</li>
         </ul>
         <a class="btn" href="https://payhip.com/TON_LIEN">Obtenir le Guide</a>
@@ -370,7 +415,7 @@
     </div>
     <div class="faq r">
       <details><summary>Je ne sais pas coder. C'est pour moi ?</summary><p>Oui. Tu n'écris aucune ligne de code. Tu colles un prompt, tu réponds à des choix, Claude fait le reste.</p></details>
-      <details><summary>De quoi ai-je besoin ?</summary><p>De Roblox Studio (gratuit) et de Claude, relié à Roblox Studio. Un abonnement Claude est conseillé.</p></details>
+      <details><summary>De quoi ai-je besoin ?</summary><p>De Roblox Studio (gratuit) et de Claude, relié à Roblox Studio. Le tuto pour les relier est dans le Guide. Un abonnement Claude est conseillé.</p></details>
       <details><summary>L'IA peut-elle se tromper ?</summary><p>Oui, parfois. Claude fait le gros du travail, mais il faut repasser derrière pour les finitions. Le guide t'explique comment.</p></details>
       <details><summary>Quel type de jeu vais-je créer ?</summary><p>Un jeu de collecte : œufs, pets, tycoon. C'est toi qui choisis le thème. Si tu n'as pas d'idée, Claude t'en propose une.</p></details>
       <details><summary>Dans quelle langue sera mon jeu ?</summary><p>En anglais, avec la traduction automatique pour les autres langues.</p></details>
@@ -385,6 +430,14 @@
     <div class="sur">Prix de lancement</div>
     <h2>Ton jeu commence<br>aujourd'hui.</h2>
     <p class="intro">Le Guide est disponible maintenant, à 19 €.</p>
+    <div class="demo" aria-hidden="true">
+      <div class="p"><em>Toi</em>Je colle le prompt de l'étape.</div>
+      <div class="p"><em>Claude</em>Quel thème pour ton jeu ?
+        <span class="choix"><svg class="souris p" viewBox="0 0 24 24"><path d="M5 3l14 8-6 2-3 6z"/></svg><b>Océan</b><b class="p">Ferme</b><b>Espace</b></span></div>
+      <div class="p"><em>Claude</em>C'est noté. Je construis.</div>
+      <u class="p">Monde créé</u><u class="p">Boutique posée</u><u class="p">Interface prête</u>
+    </div>
+    <small style="display:block;margin-top:12px;opacity:.6">Illustration simplifiée d'une étape</small>
     <p style="margin-top:40px"><a class="btn" href="https://payhip.com/TON_LIEN">Obtenir le Guide — 19 €</a></p>
     <small style="opacity:.6">Paiement sécurisé sur Payhip</small>
   </div>
@@ -412,6 +465,56 @@
   // Bandeau du haut : caché quand on descend, visible quand on remonte
   const haut = document.querySelector('.haut'); let y0 = 0;
   addEventListener('scroll', () => { haut.classList.toggle('cache', scrollY > y0 && scrollY > 80); y0 = scrollY; }, { passive: true });
+
+  const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Poussière d'or : s'allume et se relie au curseur dans le haut de page
+  if (!calme) {
+    const hero = document.querySelector('.hero'), cv = hero.querySelector('canvas'), cx = cv.getContext('2d');
+    let W, H, sx = -999, sy = -999;
+    const taille = () => { W = cv.width = hero.offsetWidth; H = cv.height = hero.offsetHeight; };
+    taille(); addEventListener('resize', taille);
+    const pts = Array.from({ length: innerWidth < 640 ? 35 : 90 }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3, r: Math.random() * 1.6 + .4 }));
+    hero.onpointermove = e => { const b = hero.getBoundingClientRect(); sx = e.clientX - b.left; sy = e.clientY - b.top; };
+    hero.onpointerleave = () => sx = sy = -999;
+    (function dessin() {
+      requestAnimationFrame(dessin);
+      if (document.body.classList.contains('bas')) return;   // haut de page hors écran : on ne dessine pas
+      cx.clearRect(0, 0, W, H);
+      for (const p of pts) {
+        p.x = (p.x + p.vx + W) % W; p.y = (p.y + p.vy + H) % H;
+        const pres = Math.max(0, 1 - Math.hypot(sx - p.x, sy - p.y) / 220);
+        if (pres) { cx.strokeStyle = `rgba(233,213,161,${pres * .55})`; cx.beginPath(); cx.moveTo(p.x, p.y); cx.lineTo(sx, sy); cx.stroke(); }
+        cx.fillStyle = `rgba(233,213,161,${.4 + pres * .6})`; cx.beginPath(); cx.arc(p.x, p.y, p.r + pres * 1.5, 0, 7); cx.fill();
+      }
+    })();
+  }
+
+  // 14 étapes : les cartes glissent sur le côté pendant qu'on descend
+  const def = document.querySelector('.defile'), piste = def.querySelector('.etapes'), fil = def.querySelector('.fil i');
+  const glisse = () => {
+    const p = Math.min(1, Math.max(0, -def.getBoundingClientRect().top / (def.offsetHeight - innerHeight)));
+    piste.style.transform = `translateX(${-p * (piste.offsetWidth - innerWidth)}px)`;
+    fil.style.transform = `scaleX(${p})`;
+  };
+  addEventListener('scroll', glisse, { passive: true }); addEventListener('resize', glisse); glisse();
+
+  // Cartes qui penchent vers la souris
+  if (!calme) document.querySelectorAll('.jeu, .carte').forEach(c => {
+    c.onpointermove = e => {
+      if (e.pointerType !== 'mouse') return;
+      const b = c.getBoundingClientRect();
+      c.style.transform = `perspective(900px) rotateY(${((e.clientX - b.left) / b.width - .5) * 7}deg) rotateX(${(.5 - (e.clientY - b.top) / b.height) * 7}deg) translateY(-4px)`;
+    };
+    c.onpointerleave = () => c.style.transform = '';
+  });
+
+  // Démo : les lignes arrivent une par une, puis ça recommence
+  const pas = document.querySelectorAll('.demo .p'); let n = 0;
+  setInterval(() => {
+    if (n > pas.length + 2) { pas.forEach(p => p.classList.remove('on')); n = 0; }
+    else pas[n++]?.classList.add('on');
+  }, 1100);
 
   // Musique
   const son = document.getElementById('son'), vol = document.getElementById('vol'), etat = document.getElementById('etat');
