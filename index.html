@@ -97,10 +97,8 @@
   @media (max-height: 640px) and (min-width: 641px) { .defile .intro { display: none; } }
 
   /* Photos */
-  .photos { display: flex; gap: 20px; margin: 36px -12px -48px; padding: 24px 12px 48px; overflow-x: auto; scrollbar-width: none;
-            -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent); mask-image: linear-gradient(90deg, #000 86%, transparent); }   /* fondu à droite */
-  .photos::-webkit-scrollbar { display: none; }
-  .photo { flex: 0 0 27%; aspect-ratio: 16/9; border-radius: 16px; background: #efe9da; border: 1px solid #e3dac4; display: grid; place-items: center; color: #a79c80; font-size: .85rem; letter-spacing: .15em; text-transform: uppercase; overflow: hidden; }
+  .photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 60px; }
+  .photo { aspect-ratio: 16/9; border-radius: 16px; background: #efe9da; border: 1px solid #e3dac4; display: grid; place-items: center; color: #a79c80; font-size: .85rem; letter-spacing: .15em; text-transform: uppercase; overflow: hidden; }
   .photo img { width: 100%; height: 100%; object-fit: cover; }
 
   /* Jeux modèles */
@@ -213,7 +211,7 @@
     .bandeau .w { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 12px; }
     .trois { gap: 34px; margin-top: 48px; }
     .jeux { grid-template-columns: 1fr; margin-top: 44px; }
-    .photos { scroll-snap-type: x mandatory; margin-inline: -24px; padding-inline: 24px; -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent); mask-image: linear-gradient(90deg, #000 88%, transparent); }
+    .photos { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -24px; padding-inline: 24px; scrollbar-width: none; }
     .photo { flex: 0 0 84%; scroll-snap-align: center; }
     .js .photos .r { opacity: 1; transform: none; }
     .carte { padding: 32px 24px; }
@@ -367,7 +365,7 @@
       <div class="photo r"><img src="photo1.jpg" alt="Miniature d'exemple : un yéti garde un nid d'œufs" loading="lazy"></div>
       <div class="photo r" style="--d:.15s"><img src="photo2.jpg" alt="Miniature d'exemple : une carotte lancée vers un dragon mystère" loading="lazy"></div>
       <div class="photo r" style="--d:.3s"><img src="photo3.jpg" alt="Miniature d'exemple : un bloc mystère volé" loading="lazy"></div>
-      <div class="photo r" style="--d:.45s"><img src="photo4.jpg" alt="Miniature d'exemple : un joueur sur un dragon, poursuivi par une soucoupe" loading="lazy"></div>
+      <div class="photo r" style="--d:.45s"><img src="photo4.jpg" alt="" loading="lazy"></div>
     </div>
   </div>
 </section>
