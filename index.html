@@ -86,10 +86,11 @@
   .js .colle { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
   .colle .w { width: 100%; margin: 0 auto; padding: 0 24px; }
   .etapes { list-style: none; display: flex; gap: 20px; width: max-content; margin: 48px 0 0; padding: 0 max(24px, calc(50vw - 520px)); will-change: transform; }
-  .etapes li { flex: none; width: 250px; padding: 28px 24px; border-radius: 18px; border: 1px solid rgba(200,164,92,.35); background: rgba(255,255,255,.04); transition: background .4s, border-color .4s; }
+  .etapes li { position: relative; flex: none; width: 250px; padding: 28px 24px; border-radius: 18px; border: 1px solid rgba(200,164,92,.35); background: rgba(255,255,255,.04); transition: background .4s, border-color .4s; }
   .etapes li:hover { background: #10503d; border-color: var(--or); }
   .etapes i { display: block; font: 400 2.4rem Didot, "Bodoni MT", Georgia, serif; color: var(--or); line-height: 1; }
   .etapes b { display: block; font: 400 1.35rem Didot, "Bodoni MT", Georgia, serif; margin: 14px 0 6px; }
+  .etapes em { position: absolute; top: 20px; right: 18px; padding: 4px 11px; border-radius: 999px; background: var(--or); color: var(--nuit); font-style: normal; font-weight: 600; font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; }   /* valeur estimée de l'étape */
   .etapes span { font-size: .92rem; color: rgba(250,247,240,.72); }
   .fil { height: 1px; margin: 40px max(24px, calc(50vw - 520px)) 0; background: rgba(200,164,92,.25); }
   .fil i { display: block; height: 100%; background: var(--or); transform-origin: left; transform: scaleX(0); }
@@ -122,6 +123,9 @@
   .carte .pour { color: var(--gris); margin: 0; }
   .carte.une .pour { color: rgba(250,247,240,.72); }
   .prix { font-size: 3.2rem; margin: 22px 0 2px; color: var(--or); }
+  .valeur { margin-top: 22px; color: var(--or-clair); font-size: .95rem; }
+  .valeur s { margin-left: 6px; font-size: 1.25rem; opacity: .85; }
+  .valeur + .prix { margin-top: 2px; }
   .carte small { color: var(--gris); }
   .carte.une small { color: var(--or-clair); }
   .carte ul { list-style: none; padding: 0; margin: 26px 0 32px; flex: 1; }
@@ -330,20 +334,20 @@
       <p class="intro">14 étapes, dans l'ordre. Chacune a son prompt. Tu ne te demandes jamais quoi faire ensuite.</p>
     </div>
     <ol class="etapes">
-      <li><i>01</i><b>Départ</b><span>Ton idée, ton thème. Claude prépare la fiche du jeu.</span></li>
-      <li><i>02</i><b>Monde</b><span>Le décor, les zones, le ciel.</span></li>
-      <li><i>03</i><b>Mécaniques</b><span>Ramasser, pêcher, casser : le cœur du jeu.</span></li>
-      <li><i>04</i><b>Économie</b><span>L'argent, les prix, la vente.</span></li>
-      <li><i>05</i><b>Progression</b><span>Améliorations, raretés, nouvelles zones.</span></li>
-      <li><i>06</i><b>Interface</b><span>Boutique, index, inventaire.</span></li>
-      <li><i>07</i><b>Sauvegarde</b><span>Tes joueurs gardent leur progression.</span></li>
-      <li><i>08</i><b>PNJ</b><span>Des personnages qui guident et qui vendent.</span></li>
-      <li><i>09</i><b>Multijoueur</b><span>Tout marche à plusieurs joueurs.</span></li>
-      <li><i>10</i><b>Ambiance</b><span>Musique, sons, effets.</span></li>
-      <li><i>11</i><b>Mobile</b><span>Jouable sur téléphone.</span></li>
-      <li><i>12</i><b>Monétisation</b><span>Passes et achats en Robux.</span></li>
-      <li><i>13</i><b>Debug</b><span>Chasse aux bugs avant la sortie.</span></li>
-      <li><i>14</i><b>Sortie</b><span>Icône, miniatures, mise en ligne.</span></li>
+      <li><i>01</i><em>Valeur 15 €</em><b>Départ</b><span>Ton idée, ton thème. Claude prépare la fiche du jeu.</span></li>
+      <li><i>02</i><em>Valeur 35 €</em><b>Monde</b><span>Le décor, les zones, le ciel.</span></li>
+      <li><i>03</i><em>Valeur 45 €</em><b>Mécaniques</b><span>Ramasser, pêcher, casser : le cœur du jeu.</span></li>
+      <li><i>04</i><em>Valeur 30 €</em><b>Économie</b><span>L'argent, les prix, la vente.</span></li>
+      <li><i>05</i><em>Valeur 35 €</em><b>Progression</b><span>Améliorations, raretés, nouvelles zones.</span></li>
+      <li><i>06</i><em>Valeur 45 €</em><b>Interface</b><span>Boutique, index, inventaire.</span></li>
+      <li><i>07</i><em>Valeur 30 €</em><b>Sauvegarde</b><span>Tes joueurs gardent leur progression.</span></li>
+      <li><i>08</i><em>Valeur 25 €</em><b>PNJ</b><span>Des personnages qui guident et qui vendent.</span></li>
+      <li><i>09</i><em>Valeur 30 €</em><b>Multijoueur</b><span>Tout marche à plusieurs joueurs.</span></li>
+      <li><i>10</i><em>Valeur 20 €</em><b>Ambiance</b><span>Musique, sons, effets.</span></li>
+      <li><i>11</i><em>Valeur 25 €</em><b>Mobile</b><span>Jouable sur téléphone.</span></li>
+      <li><i>12</i><em>Valeur 40 €</em><b>Monétisation</b><span>Passes et achats en Robux.</span></li>
+      <li><i>13</i><em>Valeur 25 €</em><b>Debug</b><span>Chasse aux bugs avant la sortie.</span></li>
+      <li><i>14</i><em>Valeur 20 €</em><b>Sortie</b><span>Icône, miniatures, mise en ligne.</span></li>
     </ol>
     <div class="fil"><i></i></div>
   </div>
@@ -379,6 +383,7 @@
         <span class="badge">Disponible</span>
         <h3>Le Guide</h3>
         <p class="pour">Pour créer ton premier jeu de collecte : œufs, pets, tycoon.</p>
+        <div class="valeur">Valeur estimée des 14 étapes <s>420 €</s></div>   <!-- = somme des « Valeur » des 14 cartes -->
         <div class="prix">19 €</div>
         <small>Prix de lancement</small>
         <ul>
@@ -392,6 +397,7 @@
       </div>
 
     </div>
+    <p class="note">Valeurs estimées par StudioPrompt, étape par étape. Ce ne sont pas d'anciens prix.</p>
   </div>
 </section>
 
