@@ -133,6 +133,21 @@
   .carte li::before { content: "◆"; position: absolute; left: 0; color: var(--or); font-size: .6rem; top: 15px; }
   .carte .btn { text-align: center; }
 
+  /* Promo Black Friday : .px9 = visible pendant la promo, .px19 = visible hors promo.
+     Le script du bas pose <html class="promo"> jusqu'au 1er janvier 2027, puis le site revient à 19 € tout seul. */
+  html:not(.promo) .px9, .promo .px19 { display: none; }
+  .promo .valeur s { text-decoration: none; }   /* un seul prix barré pendant la promo : 19 € */
+  .bf-tag { display: inline-block; padding: 6px 14px; border-radius: 6px; background: #b3243a; color: #fff; font-weight: 700; font-size: .9rem; }
+  .bf { margin-top: 14px; padding: 22px; border-radius: 14px; background: var(--creme); color: var(--encre); }
+  .bf .prix { color: var(--encre); font-size: 5rem; margin: 12px 0 4px; }
+  .bf .prix i { font-size: 0; }   /* virgule lue par les lecteurs d'écran, pas affichée */
+  .bf .prix sup { font-size: .38em; vertical-align: top; position: relative; top: .3em; margin-left: 3px; }
+  .bf p { margin: 6px 0 0; color: var(--gris); font-size: .92rem; }
+  .bf b, .bf .fin { color: #cc0c39; }
+  .bf .fin { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bf .dispo { color: #007600; font-weight: 600; }
+  .bf s, #bfcd { white-space: nowrap; }
+
   /* FAQ */
   .faq { max-width: 720px; margin: 60px auto 0; }
   details { border-top: 1px solid #e3dac4; padding: 22px 0; }
@@ -285,7 +300,8 @@
     <h1 class="m" style="--d:1.1s">Ton jeu Roblox.<br><em>Créé avec l'IA.</em></h1>
     <p class="m" style="--d:1.4s">14 prompts exclusifs, testés un par un. Un guide pas à pas. Claude construit, toi tu choisis.</p>
     <div class="m" style="--d:1.7s">
-      <a class="btn" href="https://payhip.com/buy?link=Ma054">Obtenir le Guide — 19 €</a>
+      <div class="px9" style="margin-bottom:18px"><span class="bf-tag">Offre Black Friday · −52 %</span></div>
+      <a class="btn" href="https://payhip.com/buy?link=Ma054">Obtenir le Guide — <span class="px19">19 €</span><span class="px9">8,99 €</span></a>
       <small><a class="lien" href="#offres">Voir l'offre</a></small>
     </div>
   </div>
@@ -406,8 +422,17 @@
         <h3>Le Guide</h3>
         <p class="pour">Pour créer ton premier jeu de collecte : œufs, pets, tycoon.</p>
         <div class="valeur">Valeur estimée des 14 étapes <s>630 €</s></div>   <!-- = somme des « Valeur » des 14 cartes -->
-        <div class="prix">19 €</div>
-        <small>Prix de lancement · hors taxes</small>
+        <div class="prix px19">19 €</div>
+        <small class="px19">Prix de lancement · hors taxes</small>
+        <!-- PROMO BLACK FRIDAY : affichée jusqu'au 1er janvier 2027, 00 h 00 (heure de Paris) -->
+        <div class="bf px9">
+          <span class="bf-tag">Offre Black Friday</span>
+          <div class="prix">8<i>,</i><sup>99 €</sup></div>
+          <p><b>−52 %</b> Prix le plus bas des 30 derniers jours : <s>19,00 €</s></p>
+          <p class="fin">Fin de l'offre dans <span id="bfcd"></span></p>
+          <p class="dispo">Disponible · téléchargement immédiat</p>
+          <p>Prix hors taxes</p>
+        </div>
         <ul>
           <li>Les 14 prompts exclusifs, testés un par un</li>
           <li>Le guide PDF, étape par étape</li>
@@ -419,7 +444,7 @@
       </div>
 
     </div>
-    <p class="note">Valeurs estimées par StudioPrompt, étape par étape. Ce ne sont pas d'anciens prix.</p>
+    <p class="note">Valeurs estimées par StudioPrompt, étape par étape. Ce ne sont pas d'anciens prix.<span class="px9"> Offre Black Friday : 8,99 € au lieu de 19 €, jusqu'au 1er janvier 2027 à minuit (heure de Paris).</span></p>
   </div>
 </section>
 
@@ -445,10 +470,10 @@
 <!-- 8. APPEL FINAL -->
 <section class="vert centre">
   <div class="w r">
-    <div class="sur">Prix de lancement</div>
+    <div class="sur"><span class="px19">Prix de lancement</span><span class="px9">Offre Black Friday · −52 %</span></div>
     <h2>Ton jeu commence<br>aujourd'hui.</h2>
-    <p class="intro">Le Guide est disponible maintenant, à 19 €.</p>
-    <p style="margin-top:40px"><a class="btn" href="https://payhip.com/buy?link=Ma054">Obtenir le Guide — 19 €</a></p>
+    <p class="intro">Le Guide est disponible maintenant, à <span class="px19">19 €.</span><span class="px9">8,99 € au lieu de 19 €, jusqu'au 1er janvier.</span></p>
+    <p style="margin-top:40px"><a class="btn" href="https://payhip.com/buy?link=Ma054">Obtenir le Guide — <span class="px19">19 €</span><span class="px9">8,99 €</span></a></p>
     <small style="opacity:.6">Paiement sécurisé sur Payhip · prix hors taxes</small>
   </div>
 </section>
@@ -470,7 +495,7 @@
   Site non affilié à Roblox Corporation ni à Anthropic.
 </footer>
 
-<div class="barre"><span>Le Guide · 19 €</span><a class="btn" href="https://payhip.com/buy?link=Ma054">Obtenir</a></div>
+<div class="barre"><span>Le Guide · <span class="px19">19 €</span><span class="px9">8,99 € <s style="opacity:.6">19 €</s></span></span><a class="btn" href="https://payhip.com/buy?link=Ma054">Obtenir</a></div>
 
 <script>
   const io = new IntersectionObserver(es => es.forEach(e => {
@@ -566,6 +591,16 @@
     ck.querySelector('.oui').textContent = "J'ai compris";
     ck.querySelectorAll('button')[1].remove();
   };
+
+  // Promo Black Friday : fin le 1er janvier 2027 à 00 h 00, heure de Paris. À zéro, le site revient à 19 €.
+  const FIN = Date.UTC(2026, 11, 31, 23), cd = document.getElementById('bfcd'), d2 = n => String(n).padStart(2, '0');
+  (function tic() {
+    const s = Math.floor((FIN - Date.now()) / 1000);
+    document.documentElement.classList.toggle('promo', s > 0);
+    if (s <= 0) return;
+    cd.textContent = `${Math.floor(s / 86400)} j ${d2(Math.floor(s / 3600) % 24)} h ${d2(Math.floor(s / 60) % 60)} min ${d2(s % 60)} s`;
+    setTimeout(tic, 1000);
+  })();
 </script>
 </body>
 </html>
